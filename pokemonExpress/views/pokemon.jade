@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  - for pokemon in pokemons
+      li= pokemon.name
+  form(action="/pokemon/", method="get")
+          div.input
+                span.label Select Pokemon
+                input(type="text", name="id")
+            div.actions
+                input(type="submit")
