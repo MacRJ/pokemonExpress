@@ -4,10 +4,17 @@ block content
   h1= title
   p Welcome to #{title}
   - for pokemon in pokemons
-      li= pokemon.name
-  form(action="/pokemon/", method="get")
-          div.input
-                span.label Select Pokemon
-                input(type="text", name="id")
-            div.actions
-                input(type="submit")
+    a(href="/pokemon/" + pokemon.id method="get")
+        li= pokemon.name
+  br
+  a(href="/pokemon")
+    p Click to go home
+
+  br
+  h1 Add Pokemon Name
+    form(action="pokemon/new" , method="post")
+        div.input
+            span.label
+            input(type="text", name="name")
+        div.actions
+            input(type="submit", value="add")

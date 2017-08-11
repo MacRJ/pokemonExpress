@@ -17,20 +17,12 @@ knex.raw(`SELECT * FROM pokemons`)
   res.render('pokemon', { title: 'Pokemon', pokemons: data.rows });
 })
 });
-// show
-router.get('/:id', function(req, res, next){
-  knex.raw(`SELECT * FROM pokemons where id = ${req.params.id}`)
-  .then(function(data){
-    console.log(data.rows, "show")
-    res.render('pokemon', {title: 'This Pokemon', pokemons: data.rows})
-  })
-})
 // create
-router.post('/', function(req, res, next){
-  knex.raw(`INSERT into pokemons(name) VALUES (${req.body.name})`)
+router.post('/new', function(req, res, next){
+  knex.raw(`INSERT into pokemons(name) VALUES ('${req.body.name}');`)
   .then(function(data){
     console.log(data.rows, "create");
-    res.redirect('pokemon')
+    res.render('thisPokemon', {title: 'this Pokemon', pokemons: data.rows})
   })
 })
 // update
@@ -42,11 +34,21 @@ knex.raw(`UPDATE pokemons set name= ${req.body.name} WHERE id=${req.body.id}`)
 })
 })
 // delete
-router.delete('/:id', function(req, res, next){
-  knex.raw(`DELTE FROM pokemons WHERE id = ${req.params.id}`)
+router.post('/:id/delete', function(req, res, next){
+  knex.raw(`DELETE FROM pokemons WHERE id = '${req.params.id}'`)
   .then(function(data){
     console.log(data.rows, "delete")
-    res.redirect('pokemon')
+    res.redirect('/pokemon')
+  })
+})
+
+// show
+router.get('/:id', function(req, res, next){
+  var pokeId = req.params.id
+  knex.raw(`SELECT * FROM pokemons where id = ${req.params.id}`)
+  .then(function(data){
+    console.log(data.rows, "show")
+    res.render('thisPokemon', {title: 'this Pokemon', pokemons: data.rows, pokeId: pokeId})
   })
 })
 
